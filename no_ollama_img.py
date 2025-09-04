@@ -3,21 +3,11 @@ from PIL import Image
 from io import BytesIO
 import os
 from dotenv import load_dotenv
-#import google.generativeai as genai
 import requests
 
 # Load environment variables from a .env file
 load_dotenv()
 
-# --- Configure Google Generative AI ---
-# Configure the API key from environment variables
-# try:
-#     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-# except TypeError:
-#     st.error("GOOGLE_API_KEY not found. Please set it in your .env file.")
-#     st.stop()
-
-# --- Google AI (Imagen 3) for Image Generation ---
 # --- Hugging Face API for Image Generation ---
 def get_image_from_api(prompt: str):
     """
@@ -29,7 +19,6 @@ def get_image_from_api(prompt: str):
         st.error("HUGGINGFACE_API_KEY not found in .env file.")
         return None
 
-    # This is the endpoint for the popular Stable Diffusion XL model
     api_url = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
 
     headers = {
@@ -43,13 +32,11 @@ def get_image_from_api(prompt: str):
     try:
         # Make the API call
         response = requests.post(api_url, headers=headers, json=payload)
-        response.raise_for_status() # Raise an error for bad status codes
+        response.raise_for_status() 
 
-        # The response body is the image data directly
         return BytesIO(response.content)
 
     except requests.exceptions.HTTPError as e:
-        # Provide a helpful error for the common "model loading" issue
         if response.status_code == 503:
              st.error("Model is currently loading on Hugging Face. Please wait a moment and try again.")
         else:
@@ -82,4 +69,5 @@ if st.button("Generate Image", type="primary"):
                 except Exception as e:
                     st.error(f"An error occurred while displaying the image: {e}")
     else:
+
         st.warning("Please enter a description to generate an image.")
