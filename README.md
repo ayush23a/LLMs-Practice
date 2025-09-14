@@ -1,0 +1,1 @@
+This repo is created to hold my practice projects on LLMs, RAG agents and more similar stuffs. I push my AI agentic system projects, RAG agents, chatbots , etc that I learn, practice and all those practices are implemented here. All projects are solely designed, developed, researched, and deployed by me.  
