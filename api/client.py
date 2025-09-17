@@ -1,19 +1,16 @@
 import requests
 import streamlit as st
 
-# A single, robust function to handle all API requests and parse the response
-def make_api_request_and_parse(endpoint_url, topic):
+
+def make_api_request_and_parse(endpoint_url, input_text, field_name = "topic"):
     """
     Sends a POST request to a specified endpoint and safely parses the JSON response.
     """
     try:
-        # The JSON payload structure for the API
-        payload = {"input": {'topic': topic}}
-        
-        # Make the POST request
+        payload = {"input": {field_name: input_text}}
+
         response = requests.post(endpoint_url, json=payload)
         
-        # Raise an exception for bad status codes (4xx or 5xx)
         response.raise_for_status()
         
         data = response.json()
@@ -23,7 +20,6 @@ def make_api_request_and_parse(endpoint_url, topic):
         if isinstance(output, dict):
             return output.get("content", "Error: 'content' key not found in the response output.")
         
-        # If output is not a dictionary (e.g., just a string), return it directly
         return output
 
     except requests.exceptions.RequestException as e:
@@ -34,16 +30,16 @@ def make_api_request_and_parse(endpoint_url, topic):
 # --- Specific functions for each endpoint ---
 
 def get_essay_response(input_text):
-    return make_api_request_and_parse("http://localhost:8000/essay/invoke", input_text)
+    return make_api_request_and_parse("http://localhost:8000/essay/invoke", input_text, field_name="topic")
 
 def get_poem_response(input_text):
-    return make_api_request_and_parse("http://localhost:8000/poem/invoke", input_text)
+    return make_api_request_and_parse("http://localhost:8000/poem/invoke", input_text, field_name="topic")
 
 def get_chat_response(input_text):
-    return make_api_request_and_parse("http://localhost:8000/chat/invoke", input_text)
+    return make_api_request_and_parse("http://localhost:8000/chat/invoke", input_text, field_name="question")
 
 def get_expert_response(input_text):
-    return make_api_request_and_parse("http://localhost:8000/expert/invoke", input_text)
+    return make_api_request_and_parse("http://localhost:8000/expert/invoke", input_text, field_name = "question")
 
 
 # --- Streamlit UI Part ---

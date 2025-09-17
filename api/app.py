@@ -11,17 +11,13 @@ import uvicorn
 
 load_dotenv()
 
-# --- DEFINE EXPLICIT INPUT SCHEMAS ---
-# This schema will be used by the client for routes that expect a 'topic'
+
 class TopicInput(BaseModel):
     topic: str
 
-# This schema will be used by the client for routes that expect a 'question'
 class QuestionInput(BaseModel):
     question: str
 
-# This is a generic schema if you want to pass a simple string
-# We won't use it for the chains, but it's good for the raw model endpoint.
 class SimpleInput(BaseModel):
     input: str
 
@@ -34,19 +30,10 @@ app = FastAPI(
     description="A simple API server for various LLM chains"
 )
 
-# --- ADD ROUTES ---
-
-# This route exposes the raw model and expects a simple input string
-add_routes(
-    app,
-    ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest"),
-    path="/gemini",
-    input_type=SimpleInput
-)
 
 # --- MODEL AND PROMPT DEFINITIONS (Unchanged) ---
 model = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest")
-llm1 = Ollama(model="gemma3:latest")
+llm1 = Ollama(model="gemma2:2b")
 llm2 = Ollama(model="llama3.2:1b")
 llm3 = Ollama(model="deepseek-r1:1.5b")
 
@@ -78,7 +65,6 @@ add_routes(
     app,
     prompt1 | llm3,
     path="/essay",
-    # Explicitly tell LangServe to expect {"topic": "..."}
     input_type=TopicInput
 )
 
@@ -86,7 +72,6 @@ add_routes(
     app,
     prompt2 | llm1,
     path="/poem",
-    # Explicitly tell LangServe to expect {"topic": "..."}
     input_type=TopicInput
 )
 
@@ -94,7 +79,6 @@ add_routes(
     app,
     prompt3 | llm2 | StrOutputParser(),
     path="/chat",
-    # Explicitly tell LangServe to expect {"question": "..."}
     input_type=QuestionInput
 )
 
@@ -102,7 +86,6 @@ add_routes(
     app,
     prompt4 | model | StrOutputParser(),
     path="/expert",
-    # Explicitly tell LangServe to expect {"question": "..."}
     input_type=QuestionInput
 )
 
