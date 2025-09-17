@@ -1,3 +1,10 @@
-debug the code. make it agentic, such that it responds to the users queries without throwing API errors and backend errors.
-make the backend flawless, URGENT ISSUES : remove errors -> 422, 405, 404
-make sure all the routes are connected properly
+Issue resolved: 
+  >debug the code. make it agentic, such that it responds to the users queries without throwing API errors and backend errors.
+  make the backend flawless, URGENT ISSUES : remove errors -> 422, 405, 404
+  make sure all the routes are connected properly
+
+new issues: 
+  > modify the UI, make it more optimised
+  > initiate Google OAuth for easy sign in and thus enhancing user experience
+  > add a vector database to keep track of all the messages and to keep the history saved with the agents.
+  > should contain only 1 query box from where all the agents would be called depending on the routes taken.
