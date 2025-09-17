@@ -1,0 +1,3 @@
+debug the code. make it agentic, such that it responds to the users queries without throwing API errors and backend errors.
+make the backend flawless, URGENT ISSUES : remove errors -> 422, 405, 404
+make sure all the routes are connected properly
