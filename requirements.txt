@@ -8,3 +8,5 @@ uvicorn
 sse_starlette
 google-generativeai
 langchain-ollama
+langchain-google-genai
+langchain-openai
