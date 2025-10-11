@@ -8,7 +8,6 @@ import requests
 # Load environment variables from a .env file
 load_dotenv()
 
-# --- Hugging Face API for Image Generation ---
 def get_image_from_api(prompt: str):
     """
     Calls the Hugging Face Inference API to generate an image.
@@ -71,3 +70,4 @@ if st.button("Generate Image", type="primary"):
     else:
 
         st.warning("Please enter a description to generate an image.")
+
